@@ -9,9 +9,17 @@ export default (req, res, next) => {
                     message: err.details[0].message
                 });
             }
-            next();
         });
-    } else {
-        next();
     }
+    else if(req.url === "/api/login") {
+        Validation.loginSchema.validate(req.body, (err, value) => {
+            if(err) {
+                return res.status(400).json({
+                    status: 400,
+                    message: err.details[0].message
+                });
+            }
+        });
+    }
+    return next();
 };
